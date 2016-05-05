@@ -18,12 +18,9 @@ $NumURIParams = count($URIParams);
 if (strpos($URIParams[$NumURIParams - 1], '?')) {
     $URIParams[$NumURIParams - 1] = strstr($URIParams[$NumURIParams - 1], '?', true);
 }
-var_dump($URIParams);
 
 // Get ViewMode
 $ViewMode = $URIParams[1];
-//$ViewMode = isset($_GET['mode']) ? $_GET['mode'] : '';
-//$ViewOption = isset($_GET['page']) ? $_GET['page'] : '';
 
 // Signin-User or Guest
 $IsSignin = false; $SigninUserName = '';
@@ -38,7 +35,7 @@ $error = array();
 
 // When access to users pages, jump to signin page
 if (!$IsSignin) {
-    $OnlyUsersPagesList = array('schedule');
+    $OnlyUsersPagesList = array();
     foreach ($OnlyUsersPagesList as $only_page) {
         if ($ViewMode == $only_page) {
             $ViewMode = 'top';
@@ -68,8 +65,8 @@ switch ($ViewMode) {
 
     // Top
     case '':
-        $PageTitle = "サインイン画面";
-        $Module = 'php/signin.php';
+        $PageTitle = "練習日程一覧";
+        $Module = 'php/schedule.php';
         break;
   
     // NotFound -> redirect to top

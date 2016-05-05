@@ -49,7 +49,8 @@ class HTMLPage
     <!--OutsideRow-->
     <div class="row row-offcanvas row-offcanvas-right">
       <!--VisibleContents-->
-      <div class="col-xs-12 col-sm-12">
+           <div class="container" style="padding-left: 0;">
+      <div class="col-xs-12 col-sm-12" style="padding-right: 0;">
     <nav class="navbar navbar-default">
       <div class="container">
 	    <div class="navbar-header">
@@ -67,6 +68,7 @@ class HTMLPage
 	      <ul class="nav navbar-nav">
 	        <li><a>About</a></li>
 	        <li><a>Concerts</a></li>
+            <li><a href="/schedule/">Schedule</a></li>
             <li><a>E-Mail</a></li>
 	      </ul>
 <?php
@@ -130,28 +132,38 @@ class HTMLPage
       </div>
     </div>
       </div>
+              </div>
       <!--VisibleContents-->
 
       <!--UnvisibleMenu-->
-      <div class="visible-xs sidebar-offcanvas" id="sidebar" role="navigation">
-        <div class="list-group">
+      <div class="visible-xs col-xs-3 sidebar-offcanvas" id="sidebar" role="navigation" style="padding-left: 0; height: 100%; background: #cccccc;">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
 <?php
         if ($this->IsSignin) {
 ?>
-          <a class="list-group-item list-group-item-info"><i class="glyphicon glyphicon-user"></i> <strong><?php print $this->SigninName; ?></strong></a>
-          <a href="signout/" class="list-group-item">Sign-out</a>
+          <th><a class=""><i class="glyphicon glyphicon-user"></i> <strong><?php print $this->SigninName; ?></strong></a></th>
+        </tr>
+        <tr>
+          <th><a href="signout/">Sign-out</a></th>
 <?php
         }
         else {
 ?>
-          <a href="signin/" class="list-group-item"><i class="glyphicon glyphicon-user"></i>Sign-in</a>
+          <th><a href="signin/"><i class="glyphicon glyphicon-user"></i>Sign-in</a></th>
 <?php
         }
 ?>
-          <a class="list-group-item">About</a>
-          <a class="list-group-item">Concert</a>
-          <a class="list-group-item">E-Mail</a>
-        </div>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><a>About</a></td></tr>
+        <tr><td><a>Concert</a></td></tr>
+        <tr><td><a href="/schedule/">Schedule</a></td></tr>
+        <tr><td><a>E-Mail</a></td></tr>
+      </tbody>
+    </table>
       </div>
       <!--UnvisibleMenu-->
     </div>
