@@ -3,8 +3,6 @@
 // Session Start
 session_start();
 
-//$HTTP_HOST = $_SERVER['HTTP_HOST'];
-
 // Set Variables
 $SiteTitle = "MandolinEnsembleTILOPI";
 
@@ -12,9 +10,20 @@ $SiteTitle = "MandolinEnsembleTILOPI";
 require_once('php/db.php');
 require_once('php/html-page.php');
 
-// Get Mode
-$Mode = isset($_GET['mode']) ? $_GET['mode'] : '';
-$Option = isset($_GET['option']) ? $_GET['option'] : '';
+// Get Mode or other parameters
+$URIParams = explode('/', $_SERVER['REQUEST_URI']);
+
+// Remove get method message, 'edit?id=29' -> 'edit'
+$NumURIParams = count($URIParams);
+if (strpos($URIParams[$NumURIParams - 1], '?')) {
+    $URIParams[$NumURIParams - 1] = strstr($URIParams[$NumURIParams - 1], '?', true);
+}
+var_dump($URIParams);
+
+// Get ViewMode
+$ViewMode = $URIParams[1];
+//$ViewMode = isset($_GET['mode']) ? $_GET['mode'] : '';
+//$ViewOption = isset($_GET['page']) ? $_GET['page'] : '';
 
 // Signin-User or Guest
 $IsSignin = false; $SigninUserName = '';
@@ -31,14 +40,14 @@ $error = array();
 if (!$IsSignin) {
     $OnlyUsersPagesList = array('schedule');
     foreach ($OnlyUsersPagesList as $only_page) {
-        if ($Mode == $only_page) {
-            $Mode = 'top';
+        if ($ViewMode == $only_page) {
+            $ViewMode = 'top';
         }
     }
 }
 
 // Switch by Mode
-switch ($Mode) {
+switch ($ViewMode) {
     // Sign-in
     case 'signin':
         $PageTitle = "サインイン画面";
