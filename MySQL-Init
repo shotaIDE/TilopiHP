@@ -5,11 +5,11 @@ create table schedule( id int not null auto_increment primary key, date varchar(
 ; check
 show columns from schedule;
 
-; data
-insert into schedule (date, place, remarks) values (‘7/16(土) 11:00-16:00’, ‘伊都2208’, ‘’);
-insert into schedule (date, place, remarks) values (‘8/7(日) 10:00-15:00’, ‘貝塚303’, ‘譜面台持参’);
-insert into schedule (date, place, remarks) values (‘8/20(土) 18:00-22:00’, ‘パピオ中練習室2’, ‘譜面台，アンコール譜持参’);
-
 create table users( id int not null auto_increment primary key, userid varchar(255) not null unique, name varchar(255) not null, password varchar(255) not null);
 
 insert into users (userid, name, password) values ('master', 'Master', 'password');
+
+; on SAKURA Internet serverd
+ServerAddress = mysql528.db.sakura.ne.jp
+UserPassword = 1r
+DatabaseName = ide_tilopi

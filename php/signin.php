@@ -69,7 +69,7 @@ else {
 ?>
 	    <div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-6">
-		    <input type="submit" value="Sign In" class="btn btn-primary">
+		    <input type="submit" value="Sign In" class="btn btn-primary btn-lg">
 		  </div>
 	    </div>
 	  </form>

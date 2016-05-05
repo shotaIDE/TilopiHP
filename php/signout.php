@@ -10,4 +10,6 @@ If ($IsSignin) {
 header('Location: /');
 exit();
 
+// 文字コードUTF-8用
+
 ?>

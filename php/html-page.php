@@ -33,63 +33,58 @@ class HTMLPage
     <title><?php print $this->PageTitle; ?></title>
     <base href="http://<?php print $host; ?>/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/offcanvas.css" rel="stylesheet">
+    <link href="css/bootstrap.offcanvas.min.css" rel="stylesheet">
   </head>
 <?php
     }
 
     public function StartHTMLBody() {
 ?>
-  <body>
+  <body class="body-offcanvas">
 <?php
     }
     
     public function WriteTopMenu() {
 ?>
-    <!--OutsideRow-->
-    <div class="row row-offcanvas row-offcanvas-right">
-      <!--VisibleContents-->
-           <div class="container" style="padding-left: 0;">
-      <div class="col-xs-12 col-sm-12" style="padding-right: 0;">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" role="navigation">
       <div class="container">
 	    <div class="navbar-header">
-        <p class="pull-right">
-	      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target="#sidebar">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-        </p>
+          <p class="pull-right">
+	        <button type="button" class="navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#sidebar">
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </button>
+          </p>
 	      <a class="navbar-brand">TILOPI</a>
 	    </div>
 
-        <div class="collapse navbar-collapse" id="navbar-menu">
-	      <ul class="nav navbar-nav">
-	        <li><a>About</a></li>
-	        <li><a>Concerts</a></li>
-            <li><a href="/schedule/">Schedule</a></li>
+        <div class="navbar-offcanvas navbar-offcanvas-touch" id="sidebar">
+          <ul class="nav navbar-nav">
+            <li><a>About</a></li>
+            <li><a>Concerts</a></li>
+            <li><a href="schedule/">Schedule</a></li>
             <li><a>E-Mail</a></li>
-	      </ul>
+          </ul>
 <?php
         if ($this->IsSignin) {
 ?>
           <ul class="nav navbar-nav navbar-right">
-            <li><a>こんにちは <strong><?php print $this->SigninName; ?></strong> さん</a></li>
-            <li><button type="button" onclick="location.href='signout/'" class="btn btn-default navbar-btn">Sign-out</button></li>
+            <li><a><i class="glyphicon glyphicon-user"></i>&nbsp;<strong><?php print $this->SigninName; ?></strong></a></li>
+            <li>&nbsp;&nbsp;&nbsp;<button type="button" onclick="location.href='signout/'" class="btn btn-default navbar-btn">Sign-out</button></li>
           </ul>
 <?php
         }
         else {
 ?>
           <div class="nav navbar-nav navbar-right">
-            <button type="button" onclick="location.href='signin/'" class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-user"></i>Sign-in</button>
+            &nbsp;&nbsp;&nbsp;<button type="button" onclick="location.href='signin/'" class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-user"></i>&nbsp;Sign-in</button>
           </div>
 	      
 <?php
         }
 ?>
-	    </div>
+        </div>
       </div>
     </nav>
 <?php
@@ -134,40 +129,6 @@ class HTMLPage
       </div>
               </div>
       <!--VisibleContents-->
-
-      <!--UnvisibleMenu-->
-      <div class="visible-xs col-xs-3 sidebar-offcanvas" id="sidebar" role="navigation" style="padding-left: 0; height: 100%; background: #cccccc;">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-<?php
-        if ($this->IsSignin) {
-?>
-          <th><a class=""><i class="glyphicon glyphicon-user"></i> <strong><?php print $this->SigninName; ?></strong></a></th>
-        </tr>
-        <tr>
-          <th><a href="signout/">Sign-out</a></th>
-<?php
-        }
-        else {
-?>
-          <th><a href="signin/"><i class="glyphicon glyphicon-user"></i>Sign-in</a></th>
-<?php
-        }
-?>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td><a>About</a></td></tr>
-        <tr><td><a>Concert</a></td></tr>
-        <tr><td><a href="/schedule/">Schedule</a></td></tr>
-        <tr><td><a>E-Mail</a></td></tr>
-      </tbody>
-    </table>
-      </div>
-      <!--UnvisibleMenu-->
-    </div>
-    <!--OutsideRow-->
 <?php
     }
 
@@ -185,7 +146,8 @@ class HTMLPage
 ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/offcanvas.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.offcanvas.js"></script>
   </body>
 <?php
     }

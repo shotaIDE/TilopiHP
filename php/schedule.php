@@ -82,8 +82,9 @@ if ($IsSignin) {
                 $ChangeData_Place = $MyDB->Escape($_POST['change_place']);
                 $ChangeData_Remarks = $MyDB->Escape($_POST['change_remarks']);
                 $query = "UPDATE schedule SET date='$ChangeData_Date', place='$ChangeData_Place', remarks='$ChangeData_Remarks' WHERE id=$EditTargetID";
-                //echo $query;
                 $result = $MyDB->Query($query);
+                echo mb_detect_encoding($query);
+                //var_dump($result);
                 // Succeed
                 if ($result) {
                     header('Location: /schedule/'.$PageNo.'/');
@@ -98,7 +99,7 @@ if ($IsSignin) {
     }
     // Delete Mode
     else if (($EditMode == $EditModeID['delete']) && (isset($_POST['delete_confirm']))) {
-        $query = "DELETE FROM schedule WHERE id = " . $EditTargetID;
+        $query = "DELETE FROM schedule WHERE id=$EditTargetID";
         $result = $MyDB->Query($query);
         // Succeed
         if ($result) {
@@ -122,7 +123,12 @@ if (!$result) {
 }
 else {
     $NumItems = $row['cnt'];
-    $NumPages = ceil($NumItems / $NumItems_Page);
+    if ($NumItems == 0) {
+        $NumPages = 1;
+    }
+    else {
+        $NumPages = ceil($NumItems / $NumItems_Page);
+    }
 
     // Invalid PageNo -> redirect to page 1
     if (($PageNo <= 0) || ($PageNo > $NumPages)) {
@@ -143,16 +149,22 @@ if ($IsSignin) {
             $ChangeData = array('date'=>$_POST['add_date'],
                                 'place'=>$_POST['add_place'],
                                 'remarks'=>$_POST['add_remarks']);
-            $MySchedule->StartEventTable(1);
-            $MySchedule->WriteEvent($ChangeData);
-            $MySchedule->EndEventTable();
-            $MySchedule->MakeConfirmForm('add', $ChangeData);
+            // Blank check
+            if ($ChangeData['date'] == '') {
+                $MySchedule->MakeEventForm('add', $ChangeData, true);
+            }
+            else {
+                $MySchedule->StartEventTable(1);
+                $MySchedule->WriteEvent($ChangeData);
+                $MySchedule->EndEventTable();
+                $MySchedule->MakeConfirmForm('add', $ChangeData);
+            }
         }
     }
     // Change / Delete Mode
     else if (($EditMode == $EditModeID['change']) || ($EditMode == $EditModeID['delete'])) {
         // Load target data
-        $query = "SELECT * FROM schedule WHERE id = " . $EditTargetID;
+        $query = "SELECT * FROM schedule WHERE id=$EditTargetID";
         $result = $MyDB->Query($query);
         $row = $result->fetch_assoc();
 
@@ -167,17 +179,25 @@ if ($IsSignin) {
             }
             // Change check
             else {
-                $MySchedule->StartEventTable(1);
-                $MySchedule->WriteEvent($row, false, false, true);
-                $MySchedule->EndEventTable();
-                //var_dump($_POST);
                 $ChangeData = array('date'=>$_POST['change_date'],
                                     'place'=>$_POST['change_place'],
                                     'remarks'=>$_POST['change_remarks']);
-                $MySchedule->StartEventTable(1);
-                $MySchedule->WriteEvent($ChangeData, false, false, true);
-                $MySchedule->EndEventTable();
-                $MySchedule->MakeConfirmForm('change', $ChangeData);
+                // Blank check
+                if ($ChangeData['date'] == '') {
+                    $MySchedule->StartEventTable(1);
+                    $MySchedule->WriteEvent($row, false, false, true);
+                    $MySchedule->EndEventTable();
+                    $MySchedule->MakeEventForm('change', $ChangeData, true);
+                }
+                else {
+                    $MySchedule->StartEventTable(1);
+                    $MySchedule->WriteEvent($row, false, false, true);
+                    $MySchedule->EndEventTable();
+                    $MySchedule->StartEventTable(1);
+                    $MySchedule->WriteEvent($ChangeData, false, false, true);
+                    $MySchedule->EndEventTable();
+                    $MySchedule->MakeConfirmForm('change', $ChangeData);
+                }
             }
         }
         // Delete Mode
